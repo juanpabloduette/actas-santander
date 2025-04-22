@@ -13,9 +13,11 @@
 		<!-- PDF -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 
+		<!-- PDF PARA EXPORTAR -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 		<!-- WORD -->
-		<!-- <script src="https://cdn.jsdelivr.net/npm/html-docx-js/dist/html-docx.js"></script> -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.4.0/html-docx.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/html-docx-js/dist/html-docx.js"></script>
 
 		<link rel="stylesheet" href="style.css" />
 	</head>
@@ -464,39 +466,15 @@
 						</g>
 					</svg>
 				</a>
+
+				<button id="descargarWord" style="display: none">Descargar Word</button>
+
+				<!-- PARA GUARDAR EN PDF -->
+				<button id="exportar" style="display: none">Exportar a PDF</button>
+				<div id="contenedorCertificado" style="display: none"></div>
+
+				<!-- Renderiza nombre del archivo -->
 				<div id="filenameword"></div>
-				<button style="display: none">
-					Descargar Word para pegar certificado
-					<svg
-						width="20px"
-						height="20px"
-						viewBox="0 0 24 24"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							d="M12 16L12 8"
-							stroke="#000000"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						></path>
-						<path
-							d="M9 13L11.913 15.913V15.913C11.961 15.961 12.039 15.961 12.087 15.913V15.913L15 13"
-							stroke="#000000"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						></path>
-						<path
-							d="M3 15L3 16L3 19C3 20.1046 3.89543 21 5 21L19 21C20.1046 21 21 20.1046 21 19L21 16L21 15"
-							stroke="#000000"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						></path>
-					</svg>
-				</button>
 			</div>
 		</main>
 
@@ -1574,7 +1552,7 @@
 				}
 
 				const certificadoHtml = (document.getElementById("output").innerHTML = `
-                <div class="card">
+            
                     <table style="width: 100%; border-collapse: collapse; border: none; font-size: 18.5px;">
                     <tr>
                     <td style="text-align: left;">LOTE N°${datos.lote}</td>
@@ -1593,18 +1571,21 @@
                 </p>
                 <br>
                 <br>
+				  <br>
                     <p>FIRMA: </p>
                 <br>
                 <br>
+				  <br>
                     <p>ACLARACIÓN: </p>
                 <br>
                 <br>
+				  <br>
                     <p>CUIT/DNI N°: </p>
                 <br>
                 <br>
+				  <br>
                     <p style="margin: 0;">TELÉFONO:</p>
-                </div>
-                `);
+             `);
 
 				copybutton.style.display = "block";
 				datos.certificado = certificadoHtml;
@@ -1654,6 +1635,43 @@
 				document.getElementById("filenameword").textContent = datos.fileNameWord;
 			}
 
+			// BTN DESCARGAR WORD PERSONALIZADO DE CHAT GPT
+
+			document
+				.getElementById("descargarWord")
+				.addEventListener("click", function () {
+					var contenido = document.getElementById("output").innerHTML;
+
+					var blob = htmlDocx.asBlob(datos.certificado); // Cambié htmlCompleto por contenido
+					var link = document.createElement("a");
+					link.href = URL.createObjectURL(blob);
+					link.download = "acta-entrega.docx";
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+				});
+
+			// GUARDAR EN PDF
+
+			document.getElementById("exportar").addEventListener("click", function () {
+				const contenedor = document.getElementById("contenedorCertificado");
+				contenedor.innerHTML = datos.certificado;
+
+				// Esperamos 2 segundos para que el DOM se renderice correctamente
+				setTimeout(() => {
+					html2pdf()
+						.from(datos.certificado)
+						.set({
+							margin: 10,
+							filename: datos.fileNameWord,
+							image: { type: "jpeg", quality: 0.98 },
+							html2canvas: { scale: 2 },
+							jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+						})
+						.save();
+				}, 3000); // <-- aquí va el delay, dentro de setTimeout
+			});
+
 			// FUNCION COPIAR CERTIFICADO
 
 			function copyToClipboard() {
@@ -1680,6 +1698,7 @@
 				copybutton.disabled = true;
 				document.getElementById("btndescargarwordpersonalizado").style.display =
 					"block";
+				document.getElementById("exportar").style.display = "block";
 
 				setTimeout(() => {
 					copybutton.innerHTML = `Copiar Acta <svg

@@ -170,7 +170,8 @@ body.dark .datosComprador input,
 body.dark .btndescargarwordpersonalizado,
 body.dark #filenameword,
 body.dark .card p,
-body.dark .card {
+body.dark .card,
+body.dark #exportar {
 	color: #dfdfdf;
 	transition: 0.2s ease all;
 }
