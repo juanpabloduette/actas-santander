@@ -126,18 +126,14 @@
 				<!-- <div class="title gradient-border" id="box" > -->
 				<div class="title">
 					<h1>
-						Generador de Actas de entrega
-						<svg
-							width="28"
-							height="28"
-							viewBox="0 0 48 48"
-							xmlns="http://www.w3.org/2000/svg"
-							fill="#FF0000"
-						>
-							<path
-								d="M15.8216,22.04c0,6.9412,7.6083,12.1141,8.3063,18.0958,0,0,1.3814-1.3813,1.3814-4.7361s-7.1272-13.368-7.1272-16.5765c0-2.4748.2313-3.4644,1.4535-4.9075,0,5.5982,9.0942,11.8363,9.0942,17.9319,0,0,1.3814-1.3814,1.3814-4.7361s-7.1271-13.368-7.1271-16.5765c0-2.4749.2312-3.4644,1.4534-4.9075,0,4.4528,5.7536,9.3408,8.1079,16.5611l0,0C39.1234,23.9408,43.5,27.5492,43.5,31.7161c0,5.8854-8.73,10.6563-19.5,10.6563S4.5,37.6015,4.5,31.7161C4.5,27.4269,9.1372,23.73,15.8216,22.04Z"
-							/>
-						</svg>
+						Generador de Actas de entrega Art.39
+						<select id="entidad" name="entidad">
+							<option value="SINENTIDAD">Seleccioná una entidad</option>
+							<option value="SANTANDER" selected>SANTANDER</option>
+							<option value="FRANCES">FRANCES</option>
+							<option value="MERCEDES BENZ">MERCEDES BENZ</option>
+							<option value="FCA">FCA</option>
+						</select>
 					</h1>
 					<span class="open-modal"
 						><svg
@@ -1540,7 +1536,40 @@
 			}
 			// Función para renderizar el acta
 
+			let entidadVendedora = "";
+			function obtenerEntidadVendedora() {
+				const entidadSeleccionada = document.getElementById("entidad").value;
+
+				switch (entidadSeleccionada) {
+					case "SANTANDER":
+						entidadVendedora = "Banco Santander Argentina S.A.";
+						break;
+
+					case "FRANCES":
+						entidadVendedora = "BANCO BBVA Frances S.A.";
+						break;
+
+					case "ROMBO":
+						entidadVendedora = "Rombo Compañía Financiera S.A.";
+						break;
+
+					case "MERCEDES BENZ":
+						entidadVendedora = "MERCEDES BENZ FINANCIERA S.A.";
+						break;
+
+					case "FCA":
+						entidadVendedora = "FCA Finance Argentina S.A.";
+						break;
+
+					default:
+						entidadVendedora = "";
+				}
+
+				return entidadVendedora;
+			}
+
 			function generarCertificado(datos) {
+				obtenerEntidadVendedora();
 				if (
 					datos.dominio ===
 					'<span style="color: #bd0909;">No se encontró dominio</span>'
@@ -1561,27 +1590,27 @@
                 </table>
                 <br>
                 <br>
-                <h2 style="font-size: 18.5px; text-decoration: underline; text-align:center;">ACTA DE ENTREGA DE UNIDAD ADQUIRIDA EN SUBASTA REALIZADA POR CUENTA Y ORDEN DEL <br> BANCO SANTANDER RIO S.A.-</h2>
+                <h2 style="font-size: 18.5px; text-decoration: underline; text-align:center;">ACTA DE ENTREGA DE UNIDAD ADQUIRIDA EN SUBASTA REALIZADA POR CUENTA Y ORDEN DEL <br> ${entidadVendedora}</h2>
                 <br>
                 <p style="font-size: 18.5px; line-height: 1.1;">
-                    En la ciudad de Buenos Aires, a los ${datos.fechaHoy}; BANCO SANTANDER RIO S.A., hace entrega en este acto al Sr/a. <strong>${datos.apellidoComprador} ${datos.nombreComprador}</strong> quien acreditó su identidad con <strong>${datos.cuitOdni} Nº ${datos.dniComprador}</strong>, en su carácter  de adquirente definitivo en subasta realizada el día ${datos.fechaSubastaLarga},  un automotor marca <strong>${datos.marcaVehiculo}</strong>, tipo <strong>${datos.tipo}</strong>, modelo <strong>${datos.modelo}</strong>, año <strong>${datos.modeloAnio}</strong>, Dominio <strong>${datos.dominio}</strong>, identificado en la subasta mencionada con el lote N°${datos.lote}. El comprador manifiesta al momento del retiro del lote adquirido, que la unidad fue previamente verificada e inspeccionada en su totalidad.
+                    En la ciudad de Buenos Aires, a los ${datos.fechaHoy}; ${entidadVendedora}, hace entrega en este acto al Sr/a. <strong>${datos.apellidoComprador} ${datos.nombreComprador}</strong> quien acreditó su identidad con <strong>${datos.cuitOdni} Nº ${datos.dniComprador}</strong>, en su carácter  de adquirente definitivo en subasta realizada el día ${datos.fechaSubastaLarga},  un automotor marca <strong>${datos.marcaVehiculo}</strong>, tipo <strong>${datos.tipo}</strong>, modelo <strong>${datos.modelo}</strong>, año <strong>${datos.modeloAnio}</strong>, Dominio <strong>${datos.dominio}</strong>, identificado en la subasta mencionada con el lote N°${datos.lote}. El comprador manifiesta al momento del retiro del lote adquirido, que la unidad fue previamente verificada e inspeccionada en su totalidad.
                     <br>
                     <br>
-                    En este acto, se deja expresa constancia que el comprador retira la unidad sin realizar objeciones o reservas en cuanto al estado general del vehículo, funcionamiento, condiciones, componentes y accesorios del mismo. El adquirente reconoce y confirma que fue notificado durante el desarrollo de la subasta, de todas y cada una de las observaciones que pudiese presentar la unidad subastada. Por todo evento, el comprador renuncia en forma expresa de iniciar cualquier reclamo ante las autoridades administrativas y/o judiciales, contra BANCO SANTANDER RIO S.A. y/o MARTILLERO WALTER FABIAN NARVAEZ.-
+                    En este acto, se deja expresa constancia que el comprador retira la unidad sin realizar objeciones o reservas en cuanto al estado general del vehículo, funcionamiento, condiciones, componentes y accesorios del mismo. El adquirente reconoce y confirma que fue notificado durante el desarrollo de la subasta, de todas y cada una de las observaciones que pudiese presentar la unidad subastada. Por todo evento, el comprador renuncia en forma expresa de iniciar cualquier reclamo ante las autoridades administrativas y/o judiciales, contra ${entidadVendedora} y/o MARTILLERO WALTER FABIAN NARVAEZ.-
                 </p>
                 <br>
+				<p style="font-size: 18.5px;">SOLICITAR EL CERTIFICADO DE SUBASTA A NOMBRE DEL COMPRADOR: SI / NO</p>
+
+				
                 <br>
 				  <br>
                     <p>FIRMA: </p>
                 <br>
-                <br>
 				  <br>
                     <p>ACLARACIÓN: </p>
                 <br>
-                <br>
 				  <br>
                     <p>CUIT/DNI N°: </p>
-                <br>
                 <br>
 				  <br>
                     <p style="margin: 0;">TELÉFONO:</p>
