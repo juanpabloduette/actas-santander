@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 	<head>
 		<meta charset="UTF-8" />
@@ -133,6 +133,7 @@
 							<option value="FRANCES">FRANCES</option>
 							<option value="MERCEDES BENZ">MERCEDES BENZ</option>
 							<option value="FCA">FCA</option>
+							<option value="GPAT">GPAT</option>
 						</select>
 					</h1>
 					<span class="open-modal"
@@ -503,6 +504,11 @@
 				<button class="close">&times;</button>
 				<!-- <h2>Instructivo de uso</h2> -->
 				<ul style="list-style-type: decimal">
+					<li>
+						<p>
+							<strong> Seleccionar entidad vendedora<br /> </strong>
+						</p>
+					</li>
 					<li>
 						<p>
 							Completar según corresponda: <br />
@@ -951,7 +957,7 @@
 									P
 								</text>
 							</svg>
-							imprimir 3 copias
+							imprimir 2 copias
 							<svg
 								height="22px"
 								width="22px"
@@ -1182,7 +1188,7 @@
 											textContent += item.str + " ";
 										});
 									});
-								})
+								}),
 							);
 						}
 
@@ -1374,7 +1380,7 @@
 
 				if (datosComprador() === false || fileInput.files.length === 0) {
 					alert(
-						"\n[Completar todos los campos antes de generar el acta de entrega]\n\nApellido/Razón social\nNombre/Sigla( En sigla se permiten puntos, ej: S.A.)\nDNI/CUIT\nFecha de subasta\nAdjuntar el informe de dominio."
+						"\n[Completar todos los campos antes de generar el acta de entrega]\n\nApellido/Razón social\nNombre/Sigla( En sigla se permiten puntos, ej: S.A.)\nDNI/CUIT\nFecha de subasta\nAdjuntar el informe de dominio.",
 					);
 				} else {
 					const archivo = fileInput.files[0];
@@ -1430,7 +1436,7 @@
 					<!-- let dniFormateado = dniComprador; -->
 					let dniFormateado = dniComprador.replace(
 						/^(\d{2})(\d{8})(\d)$/,
-						"$1-$2-$3"
+						"$1-$2-$3",
 					);
 					datos.dniComprador = dniFormateado;
 					datos.cuitOdni = "CUIT";
@@ -1560,6 +1566,9 @@
 					case "FCA":
 						entidadVendedora = "FCA Finance Argentina S.A.";
 						break;
+					case "GPAT":
+						entidadVendedora = "GPAT";
+						break;
 
 					default:
 						entidadVendedora = "";
@@ -1576,7 +1585,7 @@
 				) {
 					datos.dominio = datos.dominioPdf;
 					alert(
-						"No se pudieron extraer los datos del informe de dominio PDF, la patente se saca del nombre del archivo."
+						"No se pudieron extraer los datos del informe de dominio PDF, la patente se saca del nombre del archivo.",
 					);
 				}
 
@@ -1638,7 +1647,7 @@
 					// Formatear la fecha de la subasta al formato requerido (DDMMYYYY)
 					const fechaSubastaFormat = String(datos.fechaSubasta).replace(
 						/[^0-9]/g,
-						""
+						"",
 					);
 
 					// Crear el nombre del archivo con el formato requerido
@@ -1654,7 +1663,7 @@
 					datos.fileNameWord = fileName;
 
 					const btndescargarwordpersonalizado = document.getElementById(
-						"btndescargarwordpersonalizado"
+						"btndescargarwordpersonalizado",
 					);
 					btndescargarwordpersonalizado.setAttribute("download", datos.fileNameWord);
 				}
