@@ -1589,43 +1589,37 @@
 					);
 				}
 
-				const certificadoHtml = (document.getElementById("output").innerHTML = `
-            
-                    <table style="width: 100%; border-collapse: collapse; border: none; font-size: 18.5px;">
-                    <tr>
-                    <td style="text-align: left;">LOTE N°${datos.lote}</td>
-                    <td style="text-align: right;">SUBASTA: ${datos.fechaSubasta}</td>
-                    </tr>
-                </table>
-                <br>
-                <br>
-                <h2 style="font-size: 18.5px; text-decoration: underline; text-align:center;">ACTA DE ENTREGA DE UNIDAD ADQUIRIDA EN SUBASTA REALIZADA POR CUENTA Y ORDEN DEL <br> ${entidadVendedora}</h2>
-                <br>
-                <p style="font-size: 18.5px; line-height: 1.1;">
-                    En la ciudad de Buenos Aires, a los ${datos.fechaHoy}; ${entidadVendedora}, hace entrega en este acto al Sr/a. <strong>${datos.apellidoComprador} ${datos.nombreComprador}</strong> quien acreditó su identidad con <strong>${datos.cuitOdni} Nº ${datos.dniComprador}</strong>, en su carácter  de adquirente definitivo en subasta realizada el día ${datos.fechaSubastaLarga},  un automotor marca <strong>${datos.marcaVehiculo}</strong>, tipo <strong>${datos.tipo}</strong>, modelo <strong>${datos.modelo}</strong>, año <strong>${datos.modeloAnio}</strong>, Dominio <strong>${datos.dominio}</strong>, identificado en la subasta mencionada con el lote N°${datos.lote}. El comprador manifiesta al momento del retiro del lote adquirido, que la unidad fue previamente verificada e inspeccionada en su totalidad.
-                    <br>
-                    <br>
-                    En este acto, se deja expresa constancia que el comprador retira la unidad sin realizar objeciones o reservas en cuanto al estado general del vehículo, funcionamiento, condiciones, componentes y accesorios del mismo. El adquirente reconoce y confirma que fue notificado durante el desarrollo de la subasta, de todas y cada una de las observaciones que pudiese presentar la unidad subastada. Por todo evento, el comprador renuncia en forma expresa de iniciar cualquier reclamo ante las autoridades administrativas y/o judiciales, contra ${entidadVendedora} y/o MARTILLERO WALTER FABIAN NARVAEZ.-
-                </p>
-        			<p style="font-size: 18.5px;">SOLICITAR EL CERTIFICADO DE SUBASTA A NOMBRE DEL COMPRADOR: SI</p>
-		        <br>
-		            <p>FIRMA: </p>
-                <br>
-		            <p>ACLARACIÓN: ${datos.nombreComprador} </p>
-                <br>
-			        <p>DNI/CUIT N°: ${datos.dniComprador} </p>
-                <br>
-			        <p style="margin: 0;">TELÉFONO:</p>
-				<br>
-				Escanea el QR y realiza el seguimiento del certificado de subasta.
-				Te informamos cuando esté listo para retirar.
-				<br>
-				<img src="qr.jpg" />
-				<br>
-				Si vas a ceder el boleto a un tercero, enviá la documentación a certificados@narvaezbid.com.ar
-				indicando el dominio de la unidad en el asunto del email
-															
-					`);
+			const certificadoHtml = (document.getElementById("output").innerHTML = `
+<table style="width: 100%; border-collapse: collapse; border: none; font-size: 18.5px;">
+	<tr>
+		<td style="text-align: left;">LOTE N°${datos.lote}</td>
+		<td style="text-align: right;">SUBASTA: ${datos.fechaSubasta}</td>
+	</tr>
+</table>
+<br>
+<h2 style="font-size: 18.5px; text-decoration: underline; text-align:center; margin-bottom: 15px;">ACTA DE ENTREGA DE UNIDAD ADQUIRIDA EN SUBASTA REALIZADA POR CUENTA Y ORDEN DEL <br> ${entidadVendedora}</h2>
+
+<p style="font-size: 18.5px; line-height: 1.1; margin-bottom: 10px;">
+	En la ciudad de Buenos Aires, a los ${datos.fechaHoy}; ${entidadVendedora}, hace entrega en este acto al Sr/a. <strong>${datos.apellidoComprador} ${datos.nombreComprador}</strong> quien acreditó su identidad con <strong>${datos.cuitOdni} Nº ${datos.dniComprador}</strong>, en su carácter de adquirente definitivo en subasta realizada el día ${datos.fechaSubastaLarga}, un automotor marca <strong>${datos.marcaVehiculo}</strong>, tipo <strong>${datos.tipo}</strong>, modelo <strong>${datos.modelo}</strong>, año <strong>${datos.modeloAnio}</strong>, Dominio <strong>${datos.dominio}</strong>, identificado en la subasta mencionada con el lote N°${datos.lote}. El comprador manifiesta al momento del retiro del lote adquirido, que la unidad fue previamente verificada e inspeccionada en su totalidad.
+</p>
+
+<p style="font-size: 18.5px; line-height: 1.1; margin-bottom: 15px;">
+	En este acto, se deja expresa constancia que el comprador retira la unidad sin realizar objeciones o reservas en cuanto al estado general del vehículo, funcionamiento, condiciones, componentes y accesorios del mismo. El adquirente reconoce y confirma que fue notificado durante el desarrollo de la subasta, de todas y cada una de las observaciones que pudiese presentar la unidad subastada. Por todo evento, el comprador renuncia en forma expresa de iniciar cualquier reclamo ante las autoridades administrativas y/o judiciales, contra ${entidadVendedora} y/o MARTILLERO WALTER FABIAN NARVAEZ.-
+</p>
+
+<p style="font-size: 18.5px; margin-bottom: 15px;">SOLICITAR EL CERTIFICADO DE SUBASTA A NOMBRE DEL COMPRADOR: SI</p>
+
+<p style="margin: 5px 0;">FIRMA: </p>
+<p style="margin: 5px 0;">ACLARACIÓN: ${datos.nombreComprador} </p>
+<p style="margin: 5px 0;">DNI/CUIT N°: ${datos.dniComprador} </p>
+<p style="margin: 5px 0;">TELÉFONO:</p>
+
+<p style="margin-top: 15px; margin-bottom: 0;">
+	Escanea el QR y realiza el seguimiento del certificado de subasta.<br>
+	Te informamos cuando esté listo para retirar.<br>
+	<img src="qr.jpg" style="margin: 10px 0; max-height: 100px;" /><br>
+	Si vas a ceder el boleto a un tercero, enviá la documentación a certificados@narvaezbid.com.ar indicando el dominio de la unidad en el asunto del email.
+</p>`);
 
 				copybutton.style.display = "block";
 				datos.certificado = certificadoHtml;
