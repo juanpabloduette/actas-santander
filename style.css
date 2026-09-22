@@ -22,6 +22,12 @@
 	align-items: center;
 	padding: 5px;
 }
+
+#apellidoComprador,
+#nombreComprador {
+	text-transform: uppercase;
+}
+
 .gradient-border {
 	--borderWidth: 3px;
 	border-radius: 5px;
@@ -89,12 +95,23 @@ body.dark {
 	background-color: #888c8f;
 }
 
-.top {
+.deposito-container{
+display: flex;
+justify-content: center;
+align-items: center;
+color: #dfdfdf;
+
+}
+
+
+.top{
 	padding: 10px;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
 }
+
+
 .top h1 {
 	font-size: 20px;
 	font-family: Arial, Helvetica, sans-serif;

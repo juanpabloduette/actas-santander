@@ -122,6 +122,16 @@
 			<div class="fechadehoy" id="fechadehoy"><!--Fecha desde js--></div>
 		</div>
 		<header>
+			<div class="deposito-container" style="margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+				<label for="depositoSelect" style="font-weight: bold;">Depósito:</label>
+				<select id="depositoSelect" name="depositoSelect">
+					<option value="San Fernando" selected>San Fernando</option>
+					<option value="Tucumán">Tucumán</option>
+					<option value="Neuquén">Neuquén</option>
+					<option value="Otro">Otro</option>
+				</select>
+			</div>
+
 			<div class="top">
 				<!-- <div class="title gradient-border" id="box" > -->
 				<div class="title">
@@ -1578,66 +1588,74 @@
 			}
 
 			function generarCertificado(datos) {
-				obtenerEntidadVendedora();
-				if (
-					datos.dominio ===
-					'<span style="color: #bd0909;">No se encontró dominio</span>'
-				) {
-					datos.dominio = datos.dominioPdf;
-					alert(
-						"No se pudieron extraer los datos del informe de dominio PDF, la patente se saca del nombre del archivo.",
-					);
-				}
+	obtenerEntidadVendedora();
+	if (
+		datos.dominio ===
+		'<span style="color: #bd0909;">No se encontró dominio</span>'
+	) {
+		datos.dominio = datos.dominioPdf;
+		alert(
+			"No se pudieron extraer los datos del informe de dominio PDF, la patente se saca del nombre del archivo.",
+		);
+	}
 
-	const certificadoHtml = (document.getElementById("output").innerHTML = `<div style="margin: 0; padding: 0;"><table style="width: 100%; border-collapse: collapse; border: none; font-size: 18.5px;"><tr><td style="text-align: left;">LOTE N°${datos.lote}</td><td style="text-align: right;">SUBASTA: ${datos.fechaSubasta}</td></tr></table><br><h2 style="font-size: 18.5px; text-decoration: underline; text-align:center; margin-bottom: 15px; margin-top: 0;">ACTA DE ENTREGA DE UNIDAD ADQUIRIDA EN SUBASTA REALIZADA POR CUENTA Y ORDEN DEL <br> ${entidadVendedora}</h2><p style="font-size: 18.5px; line-height: 1.1; margin-bottom: 10px; margin-top: 0;">En la ciudad de Buenos Aires, a los ${datos.fechaHoy}; ${entidadVendedora}, hace entrega en este acto al Sr/a. <strong>${datos.apellidoComprador} ${datos.nombreComprador}</strong> quien acreditó su identidad con <strong>${datos.cuitOdni} Nº ${datos.dniComprador}</strong>, en su carácter de adquirente definitivo en subasta realizada el día ${datos.fechaSubastaLarga}, un automotor marca <strong>${datos.marcaVehiculo}</strong>, tipo <strong>${datos.tipo}</strong>, modelo <strong>${datos.modelo}</strong>, año <strong>${datos.modeloAnio}</strong>, Dominio <strong>${datos.dominio}</strong>, identificado en la subasta mencionada con el lote N°${datos.lote}. El comprador manifiesta al momento del retiro del lote adquirido, que la unidad fue previamente verificada e inspeccionada en su totalidad.</p><p style="font-size: 18.5px; line-height: 1.1; margin-bottom: 15px; margin-top: 0;">En este acto, se deja expresa constancia que el comprador retira la unidad sin realizar objeciones o reservas en cuanto al estado general del vehículo, funcionamiento, condiciones, componentes y accesorios del mismo. El adquirente reconoce y confirma que fue notificado durante el desarrollo de la subasta, de todas y cada una de las observaciones que pudiese presentar la unidad subastada. Por todo evento, el comprador renuncia en forma expresa de iniciar cualquier reclamo ante las autoridades administrativas y/o judiciales, contra ${entidadVendedora} y/o MARTILLERO WALTER FABIAN NARVAEZ.-</p><p style="font-size: 18.5px; margin-bottom: 15px; margin-top: 0;">SOLICITAR EL CERTIFICADO DE SUBASTA A NOMBRE DEL COMPRADOR: SI</p><p style="margin: 5px 0;">FIRMA: </p><p style="margin: 5px 0;">ACLARACIÓN: ${datos.nombreComprador} ${datos.apellidoComprador} </p><p style="margin: 5px 0;">DNI/CUIT N°: ${datos.dniComprador} </p><p style="margin: 5px 0;">TELÉFONO:</p><p style="margin-top: 15px; margin-bottom: 0;">Escanea el QR y realiza el seguimiento del certificado de subasta.<br>Te informamos cuando esté listo para retirar.<br><img src="qr.jpg" style="margin: 10px 0; max-height: 90px;" /><br>Si vas a ceder el boleto a un tercero, enviá la documentación a certificados@narvaezbid.com.ar indicando el dominio de la unidad en el asunto del email.</p></div>`);
+	// Obtener el depósito seleccionado
+	const depositoSeleccionado = document.getElementById("depositoSelect").value;
 
-				copybutton.style.display = "block";
-				datos.certificado = certificadoHtml;
-				console.log(datos.certificado);
-				const btnGenerarCertificado = document.getElementById("generar");
-				btnGenerarCertificado.innerHTML = `Acta generada <svg width="22px" height="22px" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
-						  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-						  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-						  <g id="SVGRepo_iconCarrier">
-						    <path d="M512 512m-448 0a448 448 0 1 0 896 0 448 448 0 1 0-896 0Z" fill="#4CAF50"></path>
-						    <path d="M738.133333 311.466667L448 601.6l-119.466667-119.466667-59.733333 59.733334 179.2 179.2 349.866667-349.866667z" fill="#ffffff"></path>
-						  </g>
-						</svg>`;
-				btnGenerarCertificado.disabled = true;
-				btnGenerarCertificado.style.backgroundColor = "#be00ff";
-				btnGenerarCertificado.style.cursor = "default";
-				btnGenerarCertificado.style.color = "#ffffff";
+	// Determinar el texto del certificado (solo visible en San Fernando)
+	const bloqueCertificado = (depositoSeleccionado === "San Fernando") 
+		? '<p style="font-size: 18.5px; margin-bottom: 15px; margin-top: 0;">SOLICITAR EL CERTIFICADO DE SUBASTA A NOMBRE DEL COMPRADOR: SI</p>' 
+		: '';
 
-				//BTN WORD PERSONALIZADO QUE CAMBIE
+	// Determinar el texto de instrucción final según el depósito
+	const textoInstrucciones = (depositoSeleccionado === "San Fernando")
+		? 'Si vas a ceder el boleto a un tercero, enviá la documentación a certificados@narvaezbid.com.ar indicando el dominio de la unidad en el asunto del email.'
+		: 'Para solicitar el certificado de subasta tenes que enviar la documentación según el instructivo a certificados@narvaezbid.com.ar , en el asunto del email tenes que colocar el dominio de la unidad, lote y fecha de subasta.';
 
-				function descargarwordpersonalizado() {
-					// Formatear la fecha de la subasta al formato requerido (DDMMYYYY)
-					const fechaSubastaFormat = String(datos.fechaSubasta).replace(
-						/[^0-9]/g,
-						"",
-					);
+	const certificadoHtml = (document.getElementById("output").innerHTML = `<div style="margin: 0; padding: 0;"><table style="width: 100%; border-collapse: collapse; border: none; font-size: 18.5px;"><tr><td style="text-align: left;">LOTE N°${datos.lote}</td><td style="text-align: right;">SUBASTA: ${datos.fechaSubasta}</td></tr></table><br><h2 style="font-size: 18.5px; text-decoration: underline; text-align:center; margin-bottom: 15px; margin-top: 0;">ACTA DE ENTREGA DE UNIDAD ADQUIRIDA EN SUBASTA REALIZADA POR CUENTA Y ORDEN DEL <br> ${entidadVendedora}</h2><p style="font-size: 18.5px; line-height: 1.1; margin-bottom: 10px; margin-top: 0;">En la ciudad de ${depositoSeleccionado}, a los ${datos.fechaHoy}; ${entidadVendedora}, hace entrega en este acto al Sr/a. <strong>${datos.apellidoComprador} ${datos.nombreComprador}</strong> quien acreditó su identidad con <strong>${datos.cuitOdni} Nº ${datos.dniComprador}</strong>, en su carácter de adquirente definitivo en subasta realizada el día ${datos.fechaSubastaLarga}, un automotor marca <strong>${datos.marcaVehiculo}</strong>, tipo <strong>${datos.tipo}</strong>, modelo <strong>${datos.modelo}</strong>, año <strong>${datos.modeloAnio}</strong>, Dominio <strong>${datos.dominio}</strong>, identificado en la subasta mencionada con el lote N°${datos.lote}. El comprador manifiesta al momento del retiro del lote adquirido, que la unidad fue previamente verificada e inspeccionada en su totalidad.</p><p style="font-size: 18.5px; line-height: 1.1; margin-bottom: 15px; margin-top: 0;">En este acto, se deja expresa constancia que el comprador retira la unidad sin realizar objeciones o reservas en cuanto al estado general del vehículo, funcionamiento, condiciones, componentes y accesorios del mismo. El adquirente reconoce y confirma que fue notificado durante el desarrollo de la subasta, de todas y cada una de las observaciones que pudiese presentar la unidad subastada. Por todo evento, el comprador renuncia en forma expresa de iniciar cualquier reclamo ante las autoridades administrativas y/o judiciales, contra ${entidadVendedora} y/o MARTILLERO WALTER FABIAN NARVAEZ.-</p>${bloqueCertificado}<p style="margin: 5px 0;">FIRMA: </p><p style="margin: 5px 0;">ACLARACIÓN: ${datos.nombreComprador} ${datos.apellidoComprador} </p><p style="margin: 5px 0;">DNI/CUIT N°: ${datos.dniComprador} </p><p style="margin: 5px 0;">TELÉFONO:</p><p style="margin-top: 15px; margin-bottom: 0;">Escanea el QR y realiza el seguimiento del certificado de subasta.<br>Te informamos cuando esté listo para retirar.<br><img src="qr.jpg" style="margin: 10px 0; max-height: 90px;" /><br>${textoInstrucciones}</p></div>`);
 
-					// Crear el nombre del archivo con el formato requerido
-					if (
-						datos.dominio ===
-						'<span style="color: #bd0909;">No se encontró dominio</span>'
-					) {
-						datos.dominio = datos.dominioPdf;
-						// alert("usa datos.dominioPdf");
-					}
-					const fileName = `ACTA - LOTE ${datos.lote} SUBASTA ${fechaSubastaFormat} ${datos.dominio}`;
+	copybutton.style.display = "block";
+	datos.certificado = certificadoHtml;
+	console.log(datos.certificado);
+	const btnGenerarCertificado = document.getElementById("generar");
+	btnGenerarCertificado.innerHTML = `Acta generada <svg width="22px" height="22px" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+			  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+			  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+			  <g id="SVGRepo_iconCarrier">
+			    <path d="M512 512m-448 0a448 448 0 1 0 896 0 448 448 0 1 0-896 0Z" fill="#4CAF50"></path>
+			    <path d="M738.133333 311.466667L448 601.6l-119.466667-119.466667-59.733333 59.733334 179.2 179.2 349.866667-349.866667z" fill="#ffffff"></path>
+			  </g>
+			</svg>`;
+	btnGenerarCertificado.disabled = true;
+	btnGenerarCertificado.style.backgroundColor = "#be00ff";
+	btnGenerarCertificado.style.cursor = "default";
+	btnGenerarCertificado.style.color = "#ffffff";
 
-					datos.fileNameWord = fileName;
+	function descargarwordpersonalizado() {
+		const fechaSubastaFormat = String(datos.fechaSubasta).replace(
+			/[^0-9]/g,
+			"",
+		);
 
-					const btndescargarwordpersonalizado = document.getElementById(
-						"btndescargarwordpersonalizado",
-					);
-					btndescargarwordpersonalizado.setAttribute("download", datos.fileNameWord);
-				}
+		if (
+			datos.dominio ===
+			'<span style="color: #bd0909;">No se encontró dominio</span>'
+		) {
+			datos.dominio = datos.dominioPdf;
+		}
+		const fileName = `ACTA - LOTE ${datos.lote} SUBASTA ${fechaSubastaFormat} ${datos.dominio}`;
 
-				descargarwordpersonalizado();
-				document.getElementById("filenameword").textContent = datos.fileNameWord;
-			}
+		datos.fileNameWord = fileName;
+
+		const btndescargarwordpersonalizado = document.getElementById(
+			"btndescargarwordpersonalizado",
+		);
+		btndescargarwordpersonalizado.setAttribute("download", datos.fileNameWord);
+	}
+
+	descargarwordpersonalizado();
+	document.getElementById("filenameword").textContent = datos.fileNameWord;
+}
 
 			// BTN DESCARGAR WORD PERSONALIZADO DE CHAT GPT
 
@@ -1826,6 +1844,23 @@
 				document.body.classList.remove("dark");
 				Switch.checked = false;
 			}
+
+
+			const depositoSelect = document.getElementById("depositoSelect");
+
+			// Cargar la opción guardada en localStorage (si existe)
+			const depositoGuardado = localStorage.getItem("depositoSeleccionado");
+			if (depositoGuardado) {
+				depositoSelect.value = depositoGuardado;
+			} else {
+				depositoSelect.value = "San Fernando";
+			}
+
+			// Guardar en localStorage cada vez que el usuario cambie la opción
+			depositoSelect.addEventListener("change", (e) => {
+				localStorage.setItem("depositoSeleccionado", e.target.value);
+			});
+
 		</script>
 	</body>
 </html>
