@@ -127,7 +127,6 @@
 				<select id="depositoSelect" name="depositoSelect">
 					<option value="Buenos Aires" selected>San Fernando</option>
 					<option value="San Miguel de Tucumán">Tucumán</option>
-					<option value="Neuquén">Neuquén</option>
 				</select>
 			</div>
 
@@ -1602,12 +1601,12 @@
 	const depositoSeleccionado = document.getElementById("depositoSelect").value;
 
 	// Determinar el texto del certificado (solo visible en San Fernando)
-	const bloqueCertificado = (depositoSeleccionado === "San Fernando") 
+	const bloqueCertificado = (depositoSeleccionado === "Buenos Aires") 
 		? '<p style="font-size: 18.5px; margin-bottom: 15px; margin-top: 0;">SOLICITAR EL CERTIFICADO DE SUBASTA A NOMBRE DEL COMPRADOR: SI</p>' 
 		: '';
 
 	// Determinar el texto de instrucción final según el depósito
-	const textoInstrucciones = (depositoSeleccionado === "San Fernando")
+	const textoInstrucciones = (depositoSeleccionado === "Buenos Aires")
 		? 'Si vas a ceder el boleto a un tercero, enviá la documentación a certificados@narvaezbid.com.ar indicando el dominio de la unidad en el asunto del email.'
 		: 'Para solicitar el certificado de subasta tenes que enviar la documentación según el instructivo a certificados@narvaezbid.com.ar , en el asunto del email tenes que colocar el dominio de la unidad, lote y fecha de subasta. Si queres retirar el certificado de subasta por el depósito de Tucumán tenes que aclararlo en el email, de lo contrario, se retira desde nuestro depósito de Buenos Aires en San Fernando.';
 
