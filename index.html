@@ -13,8 +13,7 @@
 		<!-- PDF -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 
-		<!-- PDF PARA EXPORTAR -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+	
 
 		<!-- WORD -->
 		<script src="https://cdn.jsdelivr.net/npm/html-docx-js/dist/html-docx.js"></script>
@@ -475,7 +474,7 @@
 				<button id="descargarWord" style="display: none">Descargar Word</button>
 
 				<!-- PARA GUARDAR EN PDF -->
-				<button id="exportar" style="display: none">Exportar a PDF</button>
+			
 				<div id="contenedorCertificado" style="display: none"></div>
 
 				<!-- Renderiza nombre del archivo -->
@@ -1671,27 +1670,7 @@
 					document.body.removeChild(link);
 				});
 
-			// GUARDAR EN PDF
-
-			document.getElementById("exportar").addEventListener("click", function () {
-				const contenedor = document.getElementById("contenedorCertificado");
-				contenedor.innerHTML = datos.certificado;
-
-				// Esperamos 2 segundos para que el DOM se renderice correctamente
-				setTimeout(() => {
-					html2pdf()
-						.from(datos.certificado)
-						.set({
-							margin: 10,
-							filename: datos.fileNameWord,
-							image: { type: "jpeg", quality: 0.98 },
-							html2canvas: { scale: 2 },
-							jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-						})
-						.save();
-				}, 3000); // <-- aquí va el delay, dentro de setTimeout
-			});
-
+	
 			// FUNCION COPIAR CERTIFICADO
 
 			function copyToClipboard() {
@@ -1718,7 +1697,7 @@
 				copybutton.disabled = true;
 				document.getElementById("btndescargarwordpersonalizado").style.display =
 					"block";
-				document.getElementById("exportar").style.display = "block";
+			
 
 				setTimeout(() => {
 					copybutton.innerHTML = `Copiar Acta <svg
